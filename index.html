@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -71,16 +72,23 @@ text-align:left;
 font-size:16px;
 }
 
-#aiResult{
+#dailyWordBox{
 margin-top:15px;
-text-align:left;
+padding:15px;
+background:#f5f5f5;
+border-radius:8px;
+text-align:center;
 }
 
-#dailyWord{
-margin-bottom:20px;
-color:#444;
-font-size:15px;
-text-align:left;
+#dailyWordName{
+font-size:20px;
+font-weight:bold;
+margin-top:5px;
+}
+
+#dailyWordMeaning{
+color:#555;
+margin-top:4px;
 }
 
 @media (max-width:500px){
@@ -105,19 +113,24 @@ width:100%;
 
 <h2>AI Dictionary</h2>
 
-<h3>Word of the Day</h3>
-<div id="dailyWord">Loading...</div>
-
 <input id="word" placeholder="Type a word">
+
+<div id="dailyWordBox">
+
+<h3>Word of the Day</h3>
+
+<div id="dailyWordName"></div>
+
+<div id="dailyWordMeaning"></div>
+
+</div>
 
 <div class="buttons">
 <button onclick="speakWord()">🔊 Pronounce</button>
 <button onclick="searchWord()">Search</button>
-<button onclick="aiExplain()">🤖 AI Explain</button>
 </div>
 
 <div id="result"></div>
-<div id="aiResult"></div>
 
 </div>
 
@@ -126,6 +139,11 @@ width:100%;
 async function searchWord(){
 
 let word=document.getElementById("word").value
+
+if(word===""){
+document.getElementById("result").innerHTML="Please type a word."
+return
+}
 
 let res=await fetch(
 "https://api.dictionaryapi.dev/api/v2/entries/en/"+word
@@ -143,6 +161,11 @@ document.getElementById("result").innerHTML=
 function speakWord(){
 
 let word=document.getElementById("word").value
+
+if(word===""){
+alert("Type a word first")
+return
+}
 
 let speech=new SpeechSynthesisUtterance(word)
 
@@ -176,39 +199,16 @@ let data=await res.json()
 
 let meaning=data[0].meanings[0].definitions[0].definition
 
-document.getElementById("dailyWord").innerHTML=
-"<b>"+randomWord+"</b><br>"+meaning
+document.getElementById("dailyWordName").innerHTML=randomWord
+
+document.getElementById("dailyWordMeaning").innerHTML=meaning
 
 }
 
 wordOfDay()
 
-async function aiExplain(){
-
-let word=document.getElementById("word").value
-
-document.getElementById("aiResult").innerHTML="AI thinking..."
-
-let response=await fetch(
-"https://api-inference.huggingface.co/models/google/flan-t5-large",
-{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-inputs:"Explain the word "+word+" in simple language with example."
-})
-})
-
-let data=await response.json()
-
-document.getElementById("aiResult").innerHTML=
-"<b>AI Explanation:</b><br>"+data[0].generated_text
-
-}
-
 </script>
 
 </body>
+
 </html>
