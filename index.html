@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 <title>AI Dictionary</title>
-<h3>Word of the Day</h3>
-<div id="dailyWord">Loading...</div>
 
-<input id="word" placeholder="Type a word">
 <style>
 
 body{
@@ -47,6 +45,11 @@ cursor:pointer;
 margin-top:20px;
 }
 
+#dailyWord{
+margin-bottom:20px;
+color:#444;
+}
+
 </style>
 
 </head>
@@ -56,6 +59,9 @@ margin-top:20px;
 <div class="container">
 
 <h2>AI Dictionary</h2>
+
+<h3>Word of the Day</h3>
+<div id="dailyWord">Loading...</div>
 
 <input id="word" placeholder="Type a word">
 
@@ -84,7 +90,7 @@ document.getElementById("result").innerHTML =
 
 }
 
-</async function wordOfDay(){
+async function wordOfDay(){
 
 let words = [
 "serendipity",
@@ -111,7 +117,9 @@ document.getElementById("dailyWord").innerHTML =
 
 }
 
-wordOfDay()>
+wordOfDay()
+
+</script>
 
 </body>
 </html>
