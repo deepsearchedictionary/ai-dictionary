@@ -145,8 +145,15 @@ let data=await res.json()
 
 let meaning=data[0].meanings[0].definitions[0].definition
 
+let example=data[0].meanings[0].definitions[0].example
+
+if(!example){
+example="No example sentence available."
+}
+
 document.getElementById("result").innerHTML=
-"<b>Meaning:</b> "+meaning
+"<b>Meaning:</b> "+meaning+
+"<br><br><b>Example Sentence:</b> "+example
 
 }
 
