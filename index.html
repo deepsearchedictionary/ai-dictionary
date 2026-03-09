@@ -2,7 +2,10 @@
 <html>
 <head>
 <title>AI Dictionary</title>
+<h3>Word of the Day</h3>
+<div id="dailyWord">Loading...</div>
 
+<input id="word" placeholder="Type a word">
 <style>
 
 body{
@@ -81,7 +84,34 @@ document.getElementById("result").innerHTML =
 
 }
 
-</script>
+</async function wordOfDay(){
+
+let words = [
+"serendipity",
+"ephemeral",
+"eloquent",
+"resilient",
+"lucid",
+"meticulous",
+"ambiguous"
+]
+
+let randomWord = words[Math.floor(Math.random()*words.length)]
+
+let res = await fetch(
+"https://api.dictionaryapi.dev/api/v2/entries/en/"+randomWord
+)
+
+let data = await res.json()
+
+let meaning = data[0].meanings[0].definitions[0].definition
+
+document.getElementById("dailyWord").innerHTML =
+"<b>"+randomWord+"</b><br>"+meaning
+
+}
+
+wordOfDay()>
 
 </body>
 </html>
